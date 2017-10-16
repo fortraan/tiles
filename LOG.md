@@ -5,5 +5,5 @@ First version
 ### Version dev-0.2
 Limited snapping functionality
 ### Version staging-0.3
-*(Current version)*
+*(Current version)*  
 Fancy UI
