@@ -1,4 +1,4 @@
 # tiles
 A  simple game based on fridge magnets  
-  
-__made by fortraan__
+ 
+*made by fortraan*
