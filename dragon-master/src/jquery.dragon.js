@@ -163,6 +163,7 @@
 
     $doc.on('selectstart', preventSelect);
     fire('dragStart', this, evt);
+    return false;
   }
 
 
