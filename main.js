@@ -1,12 +1,16 @@
 var text = [
-	"this",
-	"is",
-	["a", 1],
-	"test"
+	"tiles",
+	"the",
+	["game", 1],
+	"about",
+	"fridge",
+	"magnets"
 ];
 var tiles = [];
 
 var cdiv = $("#cd");
+
+var doSnap = false;
 
 function randomIntFromInterval(min,max) {
     return Math.floor(Math.random()*(max-min+1)+min);
@@ -40,10 +44,33 @@ function populate() {
 }
 
 function init() {
+	$("#splash div").hover(function (event) {
+		$("#splash div div").animate({width:"80px"}, 400);
+	}, function (event) {
+		$("#splash div div").animate({width:"0px"}, 400);
+	});
+	$("#splash div").click(function (event) {
+		$("#splash").fadeOut(500);
+		$(".tile.dragon").fadeIn(500);
+	});
+	$("#snap").click(function (event) {
+		console.log("Snap");
+		doSnap = !doSnap;
+		if (doSnap) {
+			$("#snap").css("background-color", "#ffffff");
+		} else {
+			$("#snap").css("background-color", "rgba(0, 0, 0, 0)");
+		}
+	});
+	/*$("#splash div p").hover(function (event) {
+		$("#splash div div").animate({width:"150px"}, 400);
+	}, function (event) {
+		$("#splash div div").animate({width:"0px"}, 400);
+	});*/
 	populate();
 	for (var i = 0; i < tiles.length; i++) {
 		var newTile = $("<div class=tile></div>").text(tiles[i].text);
-		newTile.dragon({noCursor:true, dragStart:this.beginMove, drag:this.follow, dragEnd:this.snap});
+		newTile.dragon({noCursor:true, drag:follow, dragEnd:snap});
 		newTile.offset({top:tiles[i].y, left:tiles[i].x});
 		newTile.hover(function (evt) {
 			console.log("Mouse over");
@@ -53,12 +80,13 @@ function init() {
 			$(evt.target).css("background-color", "#ffffff");
 			$(evt.target).css("box-shadow", "0px 0px 0px 10px #ffffff");
 		});
+		newTile.hide();
 		//newTile.addEventListener("click", this.beginMove, false);
 		//newTile.addEventListener("contextmenu", this.beginMove, false);
-		newTile.dblclick(this.breakApart);
 		tiles[i].tile = newTile;
 		cdiv.append(newTile);
 	}
+	//$(".tile.dragon").dblclick(this.breakApart);
 }
 
 function findTile(htmlTile) {
@@ -72,6 +100,7 @@ function findTile(htmlTile) {
 }
 
 function breakApart(evt) {
+	console.log("Break");
 	if ($(evt.target).children() != null) {
 		$("#cd").append($(evt.target).children()[0].detach());
 	}
@@ -82,6 +111,7 @@ function beginMove(evt) {
 }
 
 function follow(evt) {
+	if (!doSnap) return;
 	var tile = $(evt.target);
 	var offset = tile.offset();
 	console.log(offset);
@@ -92,27 +122,48 @@ function follow(evt) {
 		// Walk through the parent tree
 		console.log(tile.parentsUntil("#cd"));
 		var par = $(tile.parentsUntil("#cd")[0]);
-		par.offset({top:par.offset().top + tile.position().top, left:tile.offset().left - (par.width() + 10)});
+		for (var i = tile.parentsUntil("#cd").length - 1; i > -1; i--) {
+			tile.parentsUntil("#cd")[i].offset({top:tile.parentsUntil("#cd")[i].offset().top + tile.position().top, left:tile.offset().left - (tile.parentsUntil("#cd")[i].width() + 10)});
+		}
 		//tile.position({top:0, left:par.width() + 20});
 	}
 }
 
 function snap(evt) {
+	if (!doSnap) return;
+	console.log("snapping");
 	var target = $(evt.target);
 	for (var i = 0; i < tiles.length; i++) {
 		var tile = tiles[i];
-		if (!$.contains(target.get(0), tile.tile.get(0))) {
+		if (!$.contains(target.get(0), tile.tile.get(0)) && tile.tile.children().length == 0) {
 			if (tile.tile.get(0) !== target.get(0)) {
 				var offset = tile.tile.offset();
 				var yD = Math.abs(offset.top - target.offset().top);
-				var lXD = Math.abs((offset.left + tile.tile.width()) - target.offset().left);
-				var rXD = Math.abs(offset.left - (target.offset().left + target.width()));
+				var rxc = $(target);
+				var lxc = $(target);
+				if ($(target).children().length > 0) {
+					rxc = $(target).children()[$(target).children().length - 1];
+				}
+				if ($(target).parentsUntil("#cd").length > 0) {
+					lxc = $(target).parentsUntil("#cd")[0];
+				}
+				var lXD = Math.abs((offset.left + tile.tile.width()) - $(lxc).offset().left);
+				var rXD = Math.abs(offset.left - ($(rxc).offset().left + $(rxc).width()));
 				console.log("Yd = " + yD + " Lxd = " + lXD + " Rxd = " + rXD);
-				if (yD < 10 && (lXD < 20 || rXD < 20)) {
-					var detached = target.detach();
+				if (yD < 10) {
+					var detached;
+					if (lXD < 20) {
+						detached = lxc.detach();
+						$(tile.tile).append($(detached));
+						$(detached).offset({top:$(tile.tile).offset().top, left:$(tile.tile).offset().left + $(tile.tile).width() + 10});
+					}
+					if (rXD < 20) {
+						detached = tile.tile.detach();
+						$(rxc).append($(detached));
+						$(detached).offset({top:$(tile.tile).offset().top, left:$(tile.tile).offset().left + $(tile.tile).width() + 10});
+					}
 					//tile.tile.offset({top:tile.tile.offset().top + detached.position().top, left:detached.offset().left - (tile.tile.width() + 10)});
-					$(tile.tile).append($(detached));
-					$(detached).offset({top:$(tile.tile).offset().top, left:$(tile.tile).offset().left + $(tile.tile).width() + 10});
+					
 					console.log("Object snapped");
 					//detached.get(0).offset({top:tile.tile.offset().top, left:tile.tile.width()});
 				}
@@ -121,4 +172,4 @@ function snap(evt) {
 	}
 }
 
-init();
+$(this.init);

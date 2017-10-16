@@ -1,4 +1,4 @@
 # [tiles](https://fortraan.github.io/tiles/)
-A  simple game based on fridge magnets
+![the game based on fridge magnets](tilesScreenshot.png?raw=true)
   
 *made by fortraan*

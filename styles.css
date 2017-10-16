@@ -1,10 +1,153 @@
 * {
 	padding: 0px;
 	margin: 0px;
+	font-family: "Lucida Console", Monaco, monospace;
 }
 
 body {
 	background: #dddddd;
+	height: 100%;
+	overflow: hidden;
+}
+
+#splash {
+	position: fixed;
+	top: 25%;
+	bottom: 25%;
+	left: 30%;
+	right: 30%;
+	width: 40%;
+	height: 50%;
+	background-color: #ffffff;
+	border-style: inset;
+	border: 2px solid black;
+	border-radius: 5px;
+}
+
+#splash h1 {
+	text-align: center;
+	position: absolute;
+	top: 30%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 50px;
+	text-decoration: underline;
+}
+
+#splash h1 span {
+	font-size: 50px;
+	background-color: #000000;
+	box-shadow: -15px -15px 0px 15px #000000;
+	color: #ffffff;
+	text-decoration: underline;
+}
+
+/*#splash div {
+	position: absolute;
+	top: 70%;
+	left: 50%;
+	width: 150px;
+	height: 40px;
+	transform: translate(-50%, -50%);
+}
+
+#splash div div {
+	position: absolute;
+	top: 70%;
+	left: 50%;
+	width: 0px;
+	height: 40px;
+	transform: translate(-50%, -50%);
+	border-bottom-style: solid;
+	border-width: 2px;
+	border-color: #000000;
+	transition-duration: 0.4s;
+}
+
+#splash div div:hover {
+	width: 150px;
+}
+
+#splash div p {
+	text-align: center;
+	font-size: 30px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}*/
+
+#splash div {
+	position: absolute;
+	top: 70%;
+	left: 50%;
+	width: 150px;
+	height: 40px;
+	transform: translate(-50%, -50%);
+	background-color: rgba(0, 0, 0, 0);
+}
+
+#splash div div {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0px;
+	height: 40px;
+	transform: translate(-50%, -50%);
+	background-color: rgba(0, 0, 0, 0);
+	border-bottom-style: solid;
+	border-width: 5px;
+	border-color: #000000;
+	font-size: 30px;
+	transition-duration: 0.4s;
+}
+
+/*#splash div div:hover {
+	width: 150px;
+}*/
+
+#splash div p {
+	font-size: 20px;
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#versiontag {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	font-size: 15px;
+	text-decoration: underline;
+}
+
+#versiontag #vt {
+	background-color: #000000;
+	box-shadow: -3px -3px 0px 3px #000000;
+	color: #ffffff;
+	text-decoration: underline;
+}
+
+#snap {
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
+	background-color: rgba(0, 0, 0, 0);
+	border-style: solid;
+	border-radius: 2px;
+	border-color: rgba(0, 0, 0, 0);
+	border-width: 2px;
+	transition-duration: 0.2s;
+}
+
+#snap p { 
+	font-size: 15px;
+}
+
+#snap:hover {
+	background-color: #ffffff;
 }
 
 #cd .tile {
@@ -12,4 +155,10 @@ body {
 	font-size: 10px;
 	box-shadow: 0px 0px 0px 10px #ffffff;
 	background-color: #ffffff;
+	/*transition-duration: 0.2s;*/
 }
+
+/*#cd .tile:hover {
+	background-color: #eeeeee;
+	box-shadow: 0px 0px 0px 10px #eeeeee;
+}*/
