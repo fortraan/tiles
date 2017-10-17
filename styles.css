@@ -130,6 +130,20 @@ body {
 	text-decoration: underline;
 }
 
+.option {
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0);
+	transition-duration: 0.2s;
+}
+
+.option p {
+	font-size: 15px;
+}
+
+.option:hover {
+	background-color: #ffffff;
+}
+
 #snap {
 	position: fixed;
 	bottom: 10px;
@@ -149,6 +163,26 @@ body {
 #snap:hover {
 	background-color: #ffffff;
 }
+
+/*#cah {
+	position: fixed;
+	bottom: 30px;
+	left: 10px;
+	background-color: rgba(0, 0, 0, 0);
+	border-style: solid;
+	border-radius: 2px;
+	border-color: rgba(0, 0, 0, 0);
+	border-width: 2px;
+	transition-duration: 0.2s;
+}
+
+#cah p { 
+	font-size: 15px;
+}
+
+#cah:hover {
+	background-color: #ffffff;
+}*/
 
 #cd .tile {
 	font-family: "Lucida Console", Monaco, monospace;

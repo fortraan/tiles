@@ -1,16 +1,30 @@
 var text = [
-	"tiles",
-	"the",
-	["game", 1],
-	"about",
+	"hi",
+	["the", 10],
+	"neon",
 	"fridge",
-	"magnets"
+	["is", 5],
+	["your", 2],
+	"worse",
+	["than",5],
+	"cards",
+	"random",
+	[",", 10],
+	"lazy",
+	"game",
+	"potato",
+	["a", 5],
+	["are", 5]
 ];
 var tiles = [];
 
 var cdiv = $("#cd");
 
 var doSnap = false;
+var cahModeActivated = false;
+
+var options = [];
+var optionVals = {};
 
 function randomIntFromInterval(min,max) {
     return Math.floor(Math.random()*(max-min+1)+min);
@@ -62,6 +76,15 @@ function init() {
 			$("#snap").css("background-color", "rgba(0, 0, 0, 0)");
 		}
 	});
+	/*$("#cah").click(function (event) {
+		console.log("cah");
+		cahModeActivated = !cahModeActivated;
+		if (cahModeActivated) {
+			$("#cah").css("background-color", "#ffffff");
+		} else {
+			$("#cah").css("background-color", "rgba(0, 0, 0, 0)");
+		}
+	});*/
 	/*$("#splash div p").hover(function (event) {
 		$("#splash div div").animate({width:"150px"}, 400);
 	}, function (event) {
@@ -87,6 +110,23 @@ function init() {
 		cdiv.append(newTile);
 	}
 	//$(".tile.dragon").dblclick(this.breakApart);
+}
+
+function createOptions() {
+	for (var i = 0; i < options.length; i++) {
+		var option = options[i];
+		var optionHtml = $("<div class=\"option\" id=\"" + option.v + "\"><p>" + option.displayName + "</p></div>")
+			.click(function (event) {
+				optionVals[$(event.target).attr("id")] = !optionVals[$(event.target).attr("id")];
+				if (optionVals[$(event.target).attr("id")]) {
+					$(event.target).css("background-color", "#ffffff");
+				} else {
+					$(event.target).css("background-color", "rgba(0, 0, 0, 0)");
+				}
+			})
+			.css({"left":"10px", "bottom":String((i * 20) + 10) + "px"});
+		
+	}
 }
 
 function findTile(htmlTile) {
