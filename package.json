@@ -1,0 +1,20 @@
+{
+	"name":"tiles",
+	"version":"staging-0.4",
+	"main":"./main.js",
+	"dependencies": {
+		"jquery":"~3.2.1",
+		"jquery-dragon":"~0.4.8"
+	},
+	"description":"a simple game about fridge magnets",
+	"repository": {
+		"type":"git",
+		"url":"git+https://github.com/fortraan/tiles"
+	},
+	"author":"fortraan",
+	"license":"MIT",
+	"bugs": {
+		"url":"https://github.com/fortraan/tiles/issues"
+	},
+	"homepage":"https://github.com/fortraan/tiles"
+}
