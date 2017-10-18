@@ -281,7 +281,7 @@ function snap(evt) {
 	var target = $(evt.target);
 	for (var i = 0; i < tiles.length; i++) {
 		var tile = tiles[i];
-		if (!$.contains(target.get(0), tile.tile.get(0)) && tile.tile.children().length == 0) {
+		if (!$.contains(target.get(0), tile.tile.get(0))) {
 			if (tile.tile.get(0) !== target.get(0)) {
 				var offset = tile.tile.offset();
 				var yD = Math.abs(offset.top - target.offset().top);
@@ -307,7 +307,7 @@ function snap(evt) {
 					if (rXD < 20) {
 						detached = tile.tile.detach();
 						$(rxc).append($(detached));
-						$(detached).css({left:String($(tile.tile).width() + 10) + "px", top:"0px"});
+						$(detached).css({left:String($(rxc).width() + 10) + "px", top:"0px"});
 					}
 					
 					console.log("Object snapped");
