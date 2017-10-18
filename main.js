@@ -3,8 +3,8 @@ var version = "beta-0.5";
 var textInit = [
 	//// Determiners ////
 	// Definite
-	['the', 5]
-	/*["this", 5],
+	/*['the', 5]
+	["this", 5],
 	["that", 5],
 	["these", 5],
 	["those", 5],
@@ -63,6 +63,12 @@ var textInit = [
 	
 	["s", 10],
 	["r", 5]*/
+	
+	"hello",
+	"world",
+	"welcome",
+	"to",
+	"tiles"
 ];
 var text = [];
 var tiles = [];
