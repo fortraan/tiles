@@ -144,6 +144,74 @@ body {
 	background-color: #ffffff;
 }
 
+#text-input {
+	position: fixed;
+	top: 10%;
+	left: -260px;
+	width: 250px;
+	height: 80%;
+	background-color: #ffffff;
+	border-style: solid;
+	border-radius: 2px;
+	border-width: 2px;
+}
+
+#text-input p {
+	position: absolute;
+	top: 10%;
+	left:50%;
+	transform: translate(-50%, -50%);
+	font-size: 13px;
+	text-align: center;
+}
+
+#text-input p a {
+	font-size: 9px;
+	text-align: center;
+}
+
+#text-input #b {
+	position: absolute;
+	top: 90%;
+	left:50%;
+	width: 80%;
+	height: 15%;
+	transform: translate(-50%, -50%);
+	background-color: rgba(0, 0, 0, 0);
+	border-style: solid;
+	border-radius: 2px;
+	border-color: #000000;
+	border-width: 2px;
+	transition-duration: 0.2s;
+}
+
+#text-input #b p {
+	position: absolute;
+	top: 50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+	font-size: 20px;
+	text-align: center;
+}
+
+#text-input #b:hover {
+	background-color: rgba(238, 238, 238, 0.7);
+}
+
+#text-input textarea {
+	position: absolute;
+	top: 50%;
+	left:50%;
+	width: 80%;
+	height: 60%;
+	transform: translate(-50%, -50%);
+	font-size: 10px;
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+	resize: none;
+}
+
 #snap {
 	position: fixed;
 	bottom: 10px;

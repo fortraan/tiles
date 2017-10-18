@@ -1,8 +1,10 @@
-var text = [
+var version = "beta-0.5";
+
+var textInit = [
 	//// Determiners ////
 	// Definite
-	["the", 5],
-	["this", 5],
+	['the', 5]
+	/*["this", 5],
 	["that", 5],
 	["these", 5],
 	["those", 5],
@@ -60,15 +62,15 @@ var text = [
 	["it", 5],
 	
 	["s", 10],
-	["r", 5]
+	["r", 5]*/
 ];
+var text = [];
 var tiles = [];
-
-var cdiv = $("#cd");
 
 var doSnap = false;
 var cahModeActivated = false;
-
+var splashShown = true;
+var textOpen = false;
 var options = [];
 var optionVals = {};
 
@@ -77,6 +79,13 @@ function randomIntFromInterval(min,max) {
 }
 
 function populate() {
+	populateJ(JSON.stringify(textInit));
+}
+
+function populateJ(json) {
+	tiles = [];
+	$("#cd").empty();
+	text = JSON.parse(json);
 	for (var i = 0; i < text.length; i++) {
 		if (Array.isArray(text[i])) {
 			for (var r = 0; r < text[i][1]; r++) {
@@ -104,6 +113,7 @@ function populate() {
 }
 
 function init() {
+	$("#versiontag").html("<span id=\"vt\">t</span>iles " + version);
 	$("#splash div").hover(function (event) {
 		$("#splash div div").animate({width:"80px"}, 400);
 	}, function (event) {
@@ -112,6 +122,7 @@ function init() {
 	$("#splash div").click(function (event) {
 		$("#splash").fadeOut(500);
 		$(".tile.dragon").fadeIn(500);
+		splashShown = false;
 	});
 	$("#snap").click(function (event) {
 		console.log("Snap");
@@ -131,15 +142,40 @@ function init() {
 			$("#cah").css("background-color", "rgba(0, 0, 0, 0)");
 		}
 	});*/
-	/*$("#splash div p").hover(function (event) {
-		$("#splash div div").animate({width:"150px"}, 400);
-	}, function (event) {
-		$("#splash div div").animate({width:"0px"}, 400);
-	});*/
+	$("body").keydown(function (event) {
+		console.log(event.which);
+		if (event.which === 87 && !splashShown) {
+			textOpen = !textOpen;
+			if (textOpen) {
+				$("#text-input").animate({left:"7px"}, 280, function () {
+					// It's the little details that make it look nice.
+					$("#text-input").animate({left:"2px"}, 50);
+				});
+			} else {
+				$("#text-input").animate({left:"7px"}, 100, function () {
+					$("#text-input").animate({left:"-260px"}, 260);
+				});
+			}
+		}
+	});
+	$("#text-input div").click(loadFromText);
+	$("#textjson").val(JSON.stringify(textInit, null, 4));
+	// Borrowing some code from https://stackoverflow.com/questions/6140632/how-to-handle-tab-in-textarea
+	$("#textjson").keydown(function (e) {
+    	if (e.keyCode === 9) {
+	        var start = this.selectionStart;
+	        var end = this.selectionEnd;
+	        var $this = $(this);
+	        var value = $this.val();
+	        $this.val(value.substring(0, start) + "\t" + value.substring(end));
+	        this.selectionStart = this.selectionEnd = start + 1;
+    	    e.preventDefault();
+    	}
+	});
 	populate();
 	for (var i = 0; i < tiles.length; i++) {
 		var newTile = $("<div class=tile></div>").text(tiles[i].text);
-		newTile.dragon({noCursor:true, drag:follow, dragEnd:snap});
+		newTile.dragon({noCursor:true, dragStart:breakApart, dragEnd:snap});
 		newTile.offset({top:tiles[i].y, left:tiles[i].x});
 		newTile.hover(function (evt) {
 			console.log("Mouse over");
@@ -153,9 +189,8 @@ function init() {
 		//newTile.addEventListener("click", this.beginMove, false);
 		//newTile.addEventListener("contextmenu", this.beginMove, false);
 		tiles[i].tile = newTile;
-		cdiv.append(newTile);
+		$("#cd").append(newTile);
 	}
-	//$(".tile.dragon").dblclick(this.breakApart);
 }
 
 function createOptions() {
@@ -171,7 +206,31 @@ function createOptions() {
 				}
 			})
 			.css({"left":"10px", "bottom":String((i * 20) + 10) + "px"});
-		
+	}
+}
+
+function loadFromText(event) {
+	var inputjson = $("#textjson").val();
+	$("#text-input").animate({left:"7px"}, 100, function () {
+		$("#text-input").animate({left:"-260px"}, 260);
+	});
+	populateJ(inputjson);
+	for (var i = 0; i < tiles.length; i++) {
+		var newTile = $("<div class=tile></div>").text(tiles[i].text);
+		newTile.dragon({noCursor:true, dragStart:breakApart, drag:follow, dragEnd:snap});
+		newTile.offset({top:tiles[i].y, left:tiles[i].x});
+		newTile.hover(function (evt) {
+			console.log("Mouse over");
+			$(evt.target).css("background-color", "#eeeeee");
+			$(evt.target).css("box-shadow", "0px 0px 0px 10px #eeeeee");
+		}, function (evt) {
+			$(evt.target).css("background-color", "#ffffff");
+			$(evt.target).css("box-shadow", "0px 0px 0px 10px #ffffff");
+		});
+		//newTile.addEventListener("click", this.beginMove, false);
+		//newTile.addEventListener("contextmenu", this.beginMove, false);
+		tiles[i].tile = newTile;
+		$("#cd").append(newTile);
 	}
 }
 
@@ -186,23 +245,19 @@ function findTile(htmlTile) {
 }
 
 function breakApart(evt) {
-	console.log("Break");
-	if ($(evt.target).children() != null) {
-		$("#cd").append($(evt.target).children()[0].detach());
+	if (doSnap) {
+		console.log("Break");
+		if ($(evt.target).parentsUntil("#cd").length > 0) {
+			$("#cd").append($(evt.target).detach());
+		}
 	}
 }
 
-function beginMove(evt) {
-	
-}
-
-function follow(evt) {
+/*function follow(evt) {
 	if (!doSnap) return;
 	var tile = $(evt.target);
 	var offset = tile.offset();
 	console.log(offset);
-	//findTile(tile).x = tile.offset().left;
-	//findTile(tile).y = tile.offset().top;
 	if (tile.parentsUntil("#cd").length > 0) {
 		console.log("Walking parent tree");
 		// Walk through the parent tree
@@ -211,9 +266,8 @@ function follow(evt) {
 		for (var i = tile.parentsUntil("#cd").length - 1; i > -1; i--) {
 			tile.parentsUntil("#cd")[i].offset({top:tile.parentsUntil("#cd")[i].offset().top + tile.position().top, left:tile.offset().left - (tile.parentsUntil("#cd")[i].width() + 10)});
 		}
-		//tile.position({top:0, left:par.width() + 20});
 	}
-}
+}*/
 
 function snap(evt) {
 	if (!doSnap) return;
@@ -238,20 +292,19 @@ function snap(evt) {
 				console.log("Yd = " + yD + " Lxd = " + lXD + " Rxd = " + rXD);
 				if (yD < 10) {
 					var detached;
+					console.log(String($(tile.tile).width()));
 					if (lXD < 20) {
 						detached = lxc.detach();
 						$(tile.tile).append($(detached));
-						$(detached).offset({top:$(tile.tile).offset().top, left:$(tile.tile).offset().left + $(tile.tile).width() + 10});
+						$(detached).css({left:String($(tile.tile).width() + 10) + "px", top:"0px"});
 					}
 					if (rXD < 20) {
 						detached = tile.tile.detach();
 						$(rxc).append($(detached));
-						$(detached).offset({top:$(tile.tile).offset().top, left:$(tile.tile).offset().left + $(tile.tile).width() + 10});
+						$(detached).css({left:String($(tile.tile).width() + 10) + "px", top:"0px"});
 					}
-					//tile.tile.offset({top:tile.tile.offset().top + detached.position().top, left:detached.offset().left - (tile.tile.width() + 10)});
 					
 					console.log("Object snapped");
-					//detached.get(0).offset({top:tile.tile.offset().top, left:tile.tile.width()});
 				}
 			}
 		}
