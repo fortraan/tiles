@@ -1,5 +1,6 @@
 # tiles
 *created by fortraan*  
+Thanks for playing my web game! It's been fun working on it.
   
 #### [Dragon](https://github.com/jeremyckahn/dragon)
 *licensed under the MIT license*  
