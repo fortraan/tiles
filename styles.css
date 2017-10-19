@@ -156,13 +156,23 @@ body {
 	border-width: 2px;
 }
 
-#text-input p {
+#text-input #add {
 	position: absolute;
 	top: 10%;
 	left:50%;
 	transform: translate(-50%, -50%);
 	font-size: 13px;
 	text-align: center;
+}
+
+#text-input #error {
+	position: absolute;
+	top: 95%;
+	left:50%;
+	transform: translate(-50%, -50%);
+	font-size: 10px;
+	text-align: center;
+	color: #ff0000;
 }
 
 #text-input p a {
@@ -172,10 +182,10 @@ body {
 
 #text-input #b {
 	position: absolute;
-	top: 90%;
+	top: 88%;
 	left:50%;
 	width: 80%;
-	height: 15%;
+	height: 10%;
 	transform: translate(-50%, -50%);
 	background-color: rgba(0, 0, 0, 0);
 	border-style: solid;

@@ -68,7 +68,11 @@ var textInit = [
 	"world",
 	"welcome",
 	"to",
-	"tiles"
+	"tiles",
+	"have",
+	"some",
+	"dank",
+	"memes"
 ];
 var text = [];
 var tiles = [];
@@ -89,9 +93,9 @@ function populate() {
 }
 
 function populateJ(json) {
+	text = JSON.parse(json);
 	tiles = [];
 	$("#cd").empty();
-	text = JSON.parse(json);
 	for (var i = 0; i < text.length; i++) {
 		if (Array.isArray(text[i])) {
 			for (var r = 0; r < text[i][1]; r++) {
@@ -217,13 +221,20 @@ function createOptions() {
 
 function loadFromText(event) {
 	var inputjson = $("#textjson").val();
+	try {
+		populateJ(inputjson);
+	} catch (e) {
+		$("#error").css("opacity", "1");
+		$("#error").text("invalid JSON");
+		$("#error").animate({opacity:"0"}, 1000);
+		return;
+	}
 	$("#text-input").animate({left:"7px"}, 100, function () {
 		$("#text-input").animate({left:"-260px"}, 260);
 	});
-	populateJ(inputjson);
 	for (var i = 0; i < tiles.length; i++) {
 		var newTile = $("<div class=tile></div>").text(tiles[i].text);
-		newTile.dragon({noCursor:true, dragStart:breakApart, drag:follow, dragEnd:snap});
+		newTile.dragon({noCursor:true, dragStart:breakApart, dragEnd:snap});
 		newTile.offset({top:tiles[i].y, left:tiles[i].x});
 		newTile.hover(function (evt) {
 			console.log("Mouse over");
